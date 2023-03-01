@@ -1,6 +1,7 @@
 import { DB_PATH } from "$env/static/private";
 import Database from "better-sqlite3";
 import type { Track, Album, AlbumTrack } from "./types";
+import bcrypt from 'bcrypt';
 
 const db = new Database(DB_PATH, { verbose: console.log });
 
@@ -115,4 +116,37 @@ export function searchTracks(searchTerm: string, limit = 50) : Track[]{
     const rows = cmd.all({ searchTerm, limit });
 
     return rows as Track[];
+}
+
+
+export async function createUser(username: string, password: string): Promise<void>{
+
+    const sql = `
+        insert into users (username, password, roles)
+        values ($username, $password, 'admin:moderator')
+    `;
+
+    const hash = await bcrypt.hash(password, 12);
+    const cmd = db.prepare(sql);
+    cmd.run({username, password: hash});
+
+}
+
+export async function checkUserCredentials(username: string, password: string): Promise<boolean> {
+
+    const sql = `
+        select password from users where username = $username
+    `;
+
+    const cmd = db.prepare(sql);
+    const row = cmd.get({ username });
+    if(row){
+        return bcrypt.compare(password, row.password);
+    } else {
+        //Operação fake para simular tempo gasto e o usuário não saber que o usuário não existe
+        //dã
+        await bcrypt.hash(password,12);
+        return false;
+    }
+
 }

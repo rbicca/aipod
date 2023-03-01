@@ -28,7 +28,7 @@
 </script>
 
 <div class="px-4">
-    <h1 class="is-size-1 mb-5">Aipod da Megan</h1>
+    <h1 class="is-size-1 mb-5">Músicas</h1>
     
     <input type="search" value={searchTerm}  placeholder="Procurar..." class="input mb-5"  style="max-width: 80ch;" 
         on:input={handleSearch}
