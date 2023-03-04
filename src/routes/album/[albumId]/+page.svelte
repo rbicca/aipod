@@ -43,12 +43,15 @@
         </tbody>
     </table>
 
-    <h2 class="is-size-3 mb-4 mt-6">Trocar nome do disco</h2>
-    <form method="post">
-        <input type="text" class="input" name="albumTitle" value={data.album.albumTitle} style="max-width: 50ch;">
-        <input type="hidden" name="albumId" value={data.album.albumId}>
+    {#if data.isAdmin}
+        <h2 class="is-size-3 mb-4 mt-6">Trocar nome do disco</h2>
+        <form method="post">
+            <input type="text" class="input" name="albumTitle" value={data.album.albumTitle} style="max-width: 50ch;">
+            <input type="hidden" name="albumId" value={data.album.albumId}>
 
-        <button class="button is-primary" type="submit" formaction="?/updateAlbumTitle" >Trocar</button>
-        <button class="button is-danger" type="submit" formaction="?/deleteAlbum" >Apagar</button>
-    </form>
+            <button class="button is-primary" type="submit" formaction="?/updateAlbumTitle" >Trocar</button>
+            <button class="button is-danger" type="submit" formaction="?/deleteAlbum" >Apagar</button>
+        </form>
+    {/if}
+    
 </div>

@@ -1,3 +1,10 @@
+<script lang="ts">
+	import type { LayoutServerData } from "./$types";
+
+    export let data: LayoutServerData;
+</script>
+
+
 <header>
     <nav class="navbar is-primary px-4" aria-label="Tela inicial">
         <div class="navbar-brand pr-4">
@@ -12,7 +19,16 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a href="/login" class="button is-primary">Entrar</a>
+                    {#if data?.username}
+                    <a 
+                        href="/logout" 
+                        class="button is-primary" 
+                        data-sveltekit-preload-data="off" 
+                        data-sveltekit-reload
+                        > Olá {data.username}, Sair</a>
+                    {:else}
+                        <a href="/login" class="button is-primary">Entrar</a>
+                    {/if}
                 </div>
             </div>
         </div>

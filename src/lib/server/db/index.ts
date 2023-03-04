@@ -150,3 +150,18 @@ export async function checkUserCredentials(username: string, password: string): 
     }
 
 }
+
+export function getUsersRoles(username: string): string[]{
+
+    const sql = `
+        select roles from users where username = $username
+    `;
+
+    const cmd = db.prepare(sql);
+    const row = cmd.get({username})
+    if(row){
+        return row.roles.split(':');
+    }
+
+    return [];
+}

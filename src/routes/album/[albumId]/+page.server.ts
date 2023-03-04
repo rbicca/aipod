@@ -2,7 +2,7 @@ import { deleteAlbum, getAlbumById, getAlbumTracks, updateAlbumTitle } from "$li
 import { error, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
-export const load = (({params}) => {
+export const load = (({params, locals}) => {
     const albumId = parseInt(params.albumId);
     if(!albumId){
         throw error(404, 'Album not found');
@@ -18,14 +18,20 @@ export const load = (({params}) => {
 
     return {
         album,
-        tracks
+        tracks,
+        isAdmin: locals?.roles?.includes('admin')
     }
 
 }) satisfies PageServerLoad;
 
 
 export const actions: Actions = {
-    updateAlbumTitle: async ({request}) => {
+    updateAlbumTitle: async ({request, locals}) => {
+
+        if(!locals.username || !locals?.roles?.includes('admin')){
+            throw error(401, { message: 'Unauthorized'});
+        }
+
         const data = await request.formData();
         const albumIdStr = data.get('albumId')?.toString();
         const albumId = albumIdStr ? parseInt(albumIdStr) : null;
