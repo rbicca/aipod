@@ -1,6 +1,6 @@
 import { DB_PATH } from "$env/static/private";
 import Database from "better-sqlite3";
-import type { Track, Album, AlbumTrack } from "./types";
+import type { Track, Album, AlbumTrack, AlbumLov, DbTrack } from "./types";
 import bcrypt from 'bcrypt';
 
 const db = new Database(DB_PATH, { verbose: console.log });
@@ -91,6 +91,17 @@ export function deleteAlbum(albumId: number){
 
 }
 
+export function insertTrack(track: DbTrack): void {
+	const sql = `
+        insert into tracks 
+            (Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice)
+        values 
+            ($name, $albumId, 1, $genreId, $composer, $milliseconds, 8679940, 0.99)
+    `;
+	    const cmd = db.prepare(sql);
+	    cmd.run(track);
+}
+
 export function searchTracks(searchTerm: string, limit = 50) : Track[]{
     const sql = `
     select 
@@ -164,4 +175,26 @@ export function getUsersRoles(username: string): string[]{
     }
 
     return [];
+}
+
+
+export function getLovAlbums(searchTerm: string | null = null) {
+	const sql = `
+        select a.AlbumId as id, 
+            a.Title as title, 
+            ar.Name as artist
+        from 
+            albums a
+            join artists ar on a.ArtistId = ar.ArtistId
+        where 
+            $searchTerm is null
+            or (
+                lower(a.Title) like lower('%' || $searchTerm || '%')
+                or lower(ar.Name) like lower('%' || $searchTerm || '%')
+            )
+        limit 25`;
+
+	const cmd = db.prepare(sql);
+	const rows = cmd.all({ searchTerm }) as AlbumLov[];
+	return rows;
 }

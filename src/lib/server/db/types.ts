@@ -19,3 +19,22 @@ export type AlbumTrack = {
     trackName: string,
     trackMs: number
 };
+
+export type DbTrack = {
+	name: string;
+	albumId: number;
+	genreId: number;
+	composer: string;
+	milliseconds: number;
+};
+
+export type AlbumLov = {
+	id: number;
+	title: string;
+	artist: string;
+};
+
+export type GenreLov = {
+	id: number;
+	genre: string;
+};
