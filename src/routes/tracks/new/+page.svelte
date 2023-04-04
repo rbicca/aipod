@@ -20,7 +20,16 @@
             valueDisplay="Apetite" 
             valueId="1"
             apiEndpoint="/api/lov/albums"
-            />
+        />
+
+        <PopupComboBox 
+            name="genreId"
+            heading="Escolha um gênero"
+            label="Gênero" 
+            valueDisplay="Rock" 
+            valueId="1"
+            apiEndpoint="/api/lov/genres"
+        />
 
         <input type="hidden" value="1" name="genreID" />
 

@@ -198,3 +198,18 @@ export function getLovAlbums(searchTerm: string | null = null) {
 	const rows = cmd.all({ searchTerm }) as AlbumLov[];
 	return rows;
 }
+
+export function getLovGenres(searchTerm: string | null = null) {
+	const sql = `
+                select g.GenreId as id
+                    , g.Name as genre
+                from genres g
+                where $searchTerm is null
+                or lower(g.Name) like lower('%' || $searchTerm || '%')
+    limit 25
+  `;
+
+	const cmd = db.prepare(sql);
+	const rows = cmd.all({ searchTerm }) as AlbumLov[];
+	return rows;
+}
