@@ -1,0 +1,22 @@
+Criar o container
+docker build -t sveltekit-sqlite.img .
+
+docker build -t sveltekit-sqlite.img . --platform linux/amd64
+
+Executar o container
+docker run -d -p 3000:3000 \
+  --mount type=bind,source="$(pwd)"/data/,target=/app/data/ \
+  --rm --name aipod \
+  aipod.img
+
+  docker tag aipod.img rbicca/aipod:0.1  
+  docker push rbicca/aipod:0.1 
+
+
+-----
+
+docker pull rbicca/aipod:0.1
+
+
+docker run -d -p 3000:3000 --mount type=bind,source="$(pwd)"/data/,target=/app/data/ --rm --name aipod rbicca/aipod:0.1
+
