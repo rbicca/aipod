@@ -1,22 +1,33 @@
+Para buildar
+  - primeiro ajustar o adapter em svelte.config
+    nesse caso foi instalado manualmente (com npm i) o adapter para node veltejs/adapter-node
+    e ajustado no svelte.config
+    depois roudo-se npm run build
+    bacana rodar o npm run preview
+
+
+
 Criar o container
 docker build -t sveltekit-sqlite.img .
 
-docker build -t sveltekit-sqlite.img . --platform linux/amd64
+docker build -t aipod-img . --platform linux/amd64
 
 Executar o container
 docker run -d -p 3000:3000 \
   --mount type=bind,source="$(pwd)"/data/,target=/app/data/ \
   --rm --name aipod \
-  aipod.img
+  aipod-img
 
-  docker tag aipod.img rbicca/aipod:0.1  
-  docker push rbicca/aipod:0.1 
+  docker logs aipod --follow
+
+  docker tag aipod-img rbicca/aipod:1.0  
+  docker push rbicca/aipod:1.0
 
 
 -----
 
-docker pull rbicca/aipod:0.1
+docker pull rbicca/aipod:1.0
 
 
-docker run -d -p 3000:3000 --mount type=bind,source="$(pwd)"/data/,target=/app/data/ --rm --name aipod rbicca/aipod:0.1
+docker run -d -p 3000:3000 --mount type=bind,source="$(pwd)"/data/,target=/app/data/ --rm --name aipod rbicca/aipod:1.0
 

@@ -1,9 +1,10 @@
-import { DB_PATH } from "$env/static/private";
+//import { DB_PATH } from "$env/static/private";
 import Database from "better-sqlite3";
 import type { Track, Album, AlbumTrack, AlbumLov, DbTrack } from "./types";
 import bcrypt from 'bcrypt';
 
-const db = new Database(DB_PATH, { verbose: console.log });
+//const db = new Database(DB_PATH, { verbose: console.log });
+const db = new Database('./data/chinook.db', { verbose: console.log });
 
 export function getInitialTracks(limit = 50) : Track[]{
     const sql = `
