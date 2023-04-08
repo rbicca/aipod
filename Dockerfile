@@ -23,4 +23,5 @@ RUN cd /app && \
 
 WORKDIR /app
 
+ENV ORIGIN http://localhost:3000
 CMD ["node", "build/index.js"]
