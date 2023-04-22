@@ -15,9 +15,11 @@ export type Album = {
 }
 
 export type AlbumTrack = {
-    trackID: number,
-    trackName: string,
-    trackMs: number
+    trackID: number;
+    trackName: string;
+    trackMs: number;
+    composer: string;
+    genre: string;
 };
 
 export type DbTrack = {

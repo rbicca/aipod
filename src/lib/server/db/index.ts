@@ -57,9 +57,12 @@ export function getAlbumTracks(albumId: number) : AlbumTrack[] {
     select
 	    t.TrackId as trackID,
         t.Name as trackName,
-        t.Milliseconds as trackMs
+        t.Milliseconds as trackMs,
+        t.Composer as composer,
+        g.Name as genre
     from
 	    tracks t
+        join genres g on t.GenreId = g.GenreId
     where
  	    t.AlbumId = $albumId
     order by
