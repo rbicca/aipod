@@ -44,6 +44,8 @@
     </table>
 
     {#if data.isAdmin}
+
+        <a href={`/album/${data.album.albumId}/edit-tracks`} class="button is-primary">Alterar músicas</a>
         <h2 class="is-size-3 mb-4 mt-6">Trocar nome do disco</h2>
         <form method="post">
             <input type="text" class="input" name="albumTitle" value={data.album.albumTitle} style="max-width: 50ch;">
