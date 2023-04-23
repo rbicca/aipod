@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import { onMount } from "svelte";
-    import { Grid } from 'ag-grid-community';
+    import { Grid, RowNode } from 'ag-grid-community';
     import type { GridOptions } from 'ag-grid-community';
     import 'ag-grid-community/styles/ag-grid.css';
     import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -85,16 +85,40 @@
         gridOptions.api?.applyTransaction({ remove: selectedRowData});
     };
 
+    const handleSave = () => {
+        let rows: any[] = [];
+        //Fez um loop pois a propriedade rowData não inclui os novos registros
+        gridOptions.api?.forEachNode((rowNode) => {
+            rows.push(rowNode.data);
+        });
+
+        const payload = {
+            deleted: Array.from(deletedIds.values()),
+            rows
+        };
+
+        console.log(payload);
+        
+    };
+
 </script>
 
 <div class="px-4">
     <h1 class="is-size-1">Músicas de { data.album.albumTitle }</h1>
 
-    <div class="py-4 columns">
+    <div class="columns">
         <div id="myGrid" style="height: 500px;" class="ag-theme-alpine column is-10"></div>
-        <div class="column px-4">
-            <button class="button py-2" on:click={handleAddRow} >Nova música</button>
-            <button class="button py-2" on:click={handleDelete} >Apagar</button>
+        <div class="column">
+            <div>
+                <button class="button py-2" on:click={handleAddRow} >Nova música</button>
+            </div>
+            <div class="py-2">
+                <button class="button py-2" on:click={handleDelete} >Apagar</button>
+            </div>
+            <div class="py-2">
+                <button class="button is-primary" on:click={handleSave} >Gravar</button>
+            </div>
+
         </div>
     </div>
 
