@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
-import { getAlbumById, getAlbumTracks } from "$lib/server/db";
+import { getAlbumById, getAlbumTracks, getGenres } from "$lib/server/db";
 
 export const load = (({params, locals}) => {
 
@@ -19,10 +19,12 @@ export const load = (({params, locals}) => {
     }
 
     const tracks = getAlbumTracks(albumId);
+    const genres = getGenres();
 
     return {
         album,
-        tracks
+        tracks,
+        genres
     }
 
 }) satisfies PageServerLoad;

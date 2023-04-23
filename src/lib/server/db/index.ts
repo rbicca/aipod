@@ -1,6 +1,6 @@
 //import { DB_PATH } from "$env/static/private";
 import Database from "better-sqlite3";
-import type { Track, Album, AlbumTrack, AlbumLov, DbTrack } from "./types";
+import type { Track, Album, AlbumTrack, AlbumLov, DbTrack, Genre } from "./types";
 import bcrypt from 'bcrypt';
 
 //const db = new Database(DB_PATH, { verbose: console.log });
@@ -216,4 +216,11 @@ export function getLovGenres(searchTerm: string | null = null) {
 	const cmd = db.prepare(sql);
 	const rows = cmd.all({ searchTerm }) as AlbumLov[];
 	return rows;
+}
+
+export function getGenres(): Genre[]{
+    const sql = `select GenreId as genreId, Name as genreName from genres`;
+    const cmd = db.prepare(sql);
+    const rows = cmd.all();
+    return rows as Genre[];
 }

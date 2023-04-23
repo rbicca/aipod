@@ -40,3 +40,8 @@ export type GenreLov = {
 	id: number;
 	genre: string;
 };
+
+export type Genre = {
+    genreId: number;
+    genreName: string;
+}
